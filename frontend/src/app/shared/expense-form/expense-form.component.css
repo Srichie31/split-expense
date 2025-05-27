@@ -1,0 +1,10 @@
+.form-group {
+    margin-bottom: 10px;
+}
+label{
+    margin-bottom: 4px;
+}
+#add-expense {
+    display: flex;
+    justify-content: space-around;
+}

@@ -1,0 +1,81 @@
+<div *ngIf="group" class="container-fluid h-100 p-0">
+  <div class="row h-100 g-0">
+    <!-- Left section -->
+    <div
+      class="col-md-6 d-flex flex-column border-end"
+      style="height: 100%; overflow: hidden"
+    >
+      <!-- Top: Title with icon buttons inline -->
+      <div
+        class="p-3 border-bottom d-flex align-items-center gap-2"
+        style="flex-shrink: 0"
+      >
+        <h5 class="text-primary text-capitalize mb-0 flex-grow-1">
+          {{ group.name }}
+        </h5>
+        <!-- <button
+          class="btn btn-sm btn-outline-primary"
+          (click)="onEditGroup()"
+          aria-label="Edit Group"
+        >
+          <i class="bi bi-pencil-fill"></i>
+        </button>
+        <button
+          class="btn btn-sm btn-outline-danger"
+          (click)="onDeleteGroup()"
+          aria-label="Delete Group"
+        >
+          <i class="bi bi-trash-fill"></i>
+        </button> -->
+        <div class="dropdown">
+          <button
+            class="btn btn-sm"
+            role="button"
+            aria-label="Delete Group"
+            id="navbarDropdownMenuAvatar"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="bi bi-three-dots-vertical"></i>
+          </button>
+          <ul
+            class="dropdown-menu dropdown-menu-end mt-2"
+            aria-labelledby="navbarDropdownMenuAvatar"
+          >
+            <li>
+              <a class="dropdown-item text-end" (click)="onEditGroup()"
+                >Edit Group</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item text-end" (click)="onDeleteGroup()"
+                >Delete Group</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item text-end" (click)="onManageMember()"
+                >Manage Members</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Scrollable expense list -->
+      <ul
+        class="list-group list-group-flush overflow-auto px-2 pt-2"
+        style="flex-grow: 1; min-height: 0"
+      >
+        <app-expense
+          *ngFor="let expense of expenses"
+          [expense]="expense"
+        ></app-expense>
+      </ul>
+    </div>
+
+    <!-- Right section -->
+    <div class="col-md-6 h-100 bg-white">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

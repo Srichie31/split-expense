@@ -1,0 +1,15 @@
+.navbar {
+  background-color: #DFF6FF;
+}
+
+.navbar-brand {
+  color: #146C94;
+}
+
+.nav-link {
+  color: #19A7CE;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}

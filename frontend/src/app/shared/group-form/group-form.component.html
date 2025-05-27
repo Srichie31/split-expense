@@ -1,0 +1,42 @@
+<button class="btn btn-sm btn-light m-3 mb-0" (click)="goBack()"  (click)="goBack()">Back</button>
+<form 
+  [formGroup]="groupForm" 
+  (ngSubmit)="onSubmit()"
+  class="p-4 pt-2">
+  <h4>{{formHeading}}</h4>
+  <div class="form-group">
+    <label for="name" class="mb-1">Group Name</label>
+    <input 
+      id="name"
+      type="text"
+      class="form-control"
+      formControlName="name"
+      [ngClass]="{
+        'is-invalid': !groupForm.get('name').valid && groupForm.get('name').touched
+      }"
+    >
+    <span 
+      class="help-block"
+      *ngIf="!groupForm.get('name').valid && groupForm.get('name').touched">
+      Group Name is required!
+    </span>
+  </div>
+  <button 
+    style="margin-top: 10px" 
+    class="btn btn-success" 
+    type="submit"
+    [disabled]="!groupForm.valid || isEqual()"
+    >Save</button>
+  <button 
+    style="margin-top: 10px; margin-left: 10px" 
+    class="btn btn-danger" 
+    (click)="onClear()"
+    type="button"
+  >Clear</button>
+  <button 
+    style="margin-top: 10px; margin-left: 10px" 
+    class="btn btn-light" 
+    (click)="onReset()"
+    type="button"
+  >Reset</button>
+</form>

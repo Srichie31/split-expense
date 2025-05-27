@@ -1,0 +1,16 @@
+.form-group {
+  margin-bottom: 10px;
+}
+button {
+  margin-right: 10px;
+}
+input {
+  padding: 16px;
+  width: 100%;
+  background: whitesmoke;
+  border: 0;
+  outline: none;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  vertical-align: middle;
+}

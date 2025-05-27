@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+/* Ensures the full height layout */
+
+@import url('https://fonts.googleapis.com/css2?family=Ancizar+Sans:ital,wght@0,100..1000;1,100..1000&family=Roboto:ital@0;1&display=swap');
+html,
+body {
+  height: 100%;
+  margin: 0;
+ font-family: "Ancizar Sans", sans-serif;  font-optical-sizing: auto;
+}
+
+/* Main app container takes up the full height of the page */
+
+/* app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+} */
+
+.scroll-hidden {
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scroll-hidden::-webkit-scrollbar {
+  display: none;
+}

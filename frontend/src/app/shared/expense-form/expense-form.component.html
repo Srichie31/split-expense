@@ -1,0 +1,228 @@
+
+<button
+  class="btn btn-sm btn-outline-secondary ms-4 mt-4"
+  *ngIf="showBackButton || isEdit"
+  (click)="goBack()"
+>
+  ← Back
+</button>
+
+<!-- Expense Form -->
+<form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+  <div class="card border-0 p-4 rounded-4 ">
+    <h5 class="mb-4">{{ formHeading }}</h5>
+
+    <div class="row g-3">
+      <!-- Description -->
+      <div class="col-md-6">
+        <label for="description" class="form-label">Description</label>
+        <input
+          id="description"
+          type="text"
+          class="form-control"
+          placeholder="Enter description"
+          formControlName="description"
+          [ngClass]="{ 'is-invalid': isInvalid('description') }"
+        />
+        <div class="invalid-feedback">Description is required!</div>
+      </div>
+
+      <!-- Group Name -->
+      <div class="col-md-6">
+        <label for="group-name" class="form-label">Group Name</label>
+        <select
+          id="group-name"
+          class="form-select"
+          formControlName="group_id"
+          [ngClass]="{ 'is-invalid': isInvalid('group_id') }"
+        >
+          <option value="" disabled selected>Select group</option>
+          <option *ngFor="let group of groups" [value]="group['_id']">
+            {{ group.name }}
+          </option>
+        </select>
+        <div class="invalid-feedback">Please select the group name!</div>
+      </div>
+
+      <!-- Amount -->
+      <div class="col-md-6">
+        <label for="amount" class="form-label">Amount</label>
+        <input
+          id="amount"
+          type="number"
+          class="form-control"
+          placeholder="Enter amount"
+          formControlName="amount"
+          [ngClass]="{
+            'is-invalid': isInvalid('amount') || isAmountInvalid()
+          }"
+        />
+        <div class="invalid-feedback">
+          <span *ngIf="isInvalid('amount')">Please enter the amount!</span>
+          <span *ngIf="isAmountInvalid()"
+            >Amount should be greater than 0!</span
+          >
+        </div>
+      </div>
+
+      <!-- Date -->
+      <div class="col-md-6">
+        <label for="date" class="form-label">Date</label>
+        <input
+          id="date"
+          type="datetime-local"
+          class="form-control"
+          formControlName="expense_date"
+          [ngClass]="{
+            'is-invalid': isInvalid('expense_date') || isDateInvalid()
+          }"
+        />
+        <div class="invalid-feedback">Date cannot be greater than today!</div>
+      </div>
+
+      <!-- Paid By -->
+      <div class="col-md-6">
+        <label for="inputGroupSelect01" class="form-label">Paid By</label>
+        <select
+          class="form-select"
+          formControlName="user"
+          id="inputGroupSelect01"
+        >
+          <option value="" disabled selected>Select payer</option>
+          <option [value]="user.user_id">You</option>
+          <option
+            *ngFor="let group of filteredGroupMembers"
+            [value]="group['_id']"
+          >
+            {{ group.name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Split Between -->
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Split Between</label>
+          <button
+            type="button"
+            class="form-control text-start"
+            (click)="openSplitModal()"
+          >
+            {{ selectedSplitOptionLabel || "Choose split option" }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-4 d-flex gap-3">
+      <button
+        class="btn btn-success"
+        type="submit"
+        [disabled]="!expenseForm.valid || isEqual()"
+      >
+        Save
+      </button>
+      <button class="btn btn-outline-primary" type="button" (click)="onReset()">
+        Reset
+      </button>
+    </div>
+  </div>
+</form>
+<!-- Bootstrap Modal -->
+<div
+  class="modal fade"
+  id="splitModal"
+  tabindex="-1"
+  aria-labelledby="splitModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="splitModalLabel">Choose Split Option</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Split Options -->
+        <div class="form-check mb-2">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="equal"
+            value="equal"
+            [(ngModel)]="splitOption"
+          />
+          <label class="form-check-label" for="equal">Split Equally</label>
+        </div>
+        <div class="form-check mb-2">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="percent"
+            value="customPercent"
+            [(ngModel)]="splitOption"
+          />
+          <label class="form-check-label" for="percent">Custom % Split</label>
+        </div>
+        <div class="form-check mb-3">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="amount"
+            value="customAmount"
+            [(ngModel)]="splitOption"
+          />
+          <label class="form-check-label" for="amount"
+            >Custom Amount Split</label
+          >
+        </div>
+
+        <!-- Custom % Inputs -->
+        <div *ngIf="splitOption === 'customPercent'" class="mb-3">
+          <div *ngFor="let member of selectedGroupMembers">
+            <label>{{ member.name }}</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="customPercentSplits[member._id]"
+              placeholder="%"
+            />
+          </div>
+        </div>
+
+        <!-- Custom Amount Inputs -->
+        <div *ngIf="splitOption === 'customAmount'" class="mb-3">
+          <div *ngFor="let member of selectedGroupMembers">
+            <label>{{ member.name }}</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="customAmountSplits[member._id]"
+              placeholder="₹"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="applySplitOption()"
+        >
+          Apply
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

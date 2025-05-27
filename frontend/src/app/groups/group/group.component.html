@@ -1,0 +1,15 @@
+<a 
+  class="list-group-item d-flex justify-content-between align-items-center py-3 px-4 shadow-sm rounded-3 mb-2 border-0 bg-light text-decoration-none"
+  [routerLink]="[group['_id']]"
+>
+  <!-- Left Content -->
+  <div>
+    <h5 class="m-0 fw-semibold text-primary text-capitalize">
+      <i class="bi bi-people-fill me-2 text-secondary"></i>{{ group.name }}
+    </h5>
+    <p class="m-0 text-muted small">Total expense: ₹{{ group.total_expense }}</p>
+  </div>
+
+  <!-- Chevron Icon -->
+  <i class="bi bi-chevron-right text-muted fs-5"></i>
+</a>
