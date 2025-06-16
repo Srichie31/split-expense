@@ -2,36 +2,48 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const app = express();
-const bodyParser = require("body-parser");
+
 const authRoutes = require("./routes/auth");
 const groupRoutes = require("./routes/group");
 const expenseRoutes = require("./routes/expense");
 const userRoutes = require("./routes/user");
 const verifyToken = require("./middleware/verifyToken");
-app.use(cors());
+
+const app = express();
+
+app.use(
+  cors({
+    origin: "https://split-expense-by-srichie.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
+);
+app.options("*", cors());
+
 app.use(express.json());
 
-
 app.use("/auth", authRoutes);
+
 app.use(verifyToken);
 app.use("/groups", groupRoutes);
 app.use("/expenses", expenseRoutes);
 app.use("/users", userRoutes);
 
-const port = process.env.PORT || 3000;
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
 
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to MongoDB Atlas"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("MongoDB error:", err));
 
-
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(` Server is listening on port ${port}`);
+  console.log(`Server running on port ${port}`);
 });
 
 module.exports = app;
