@@ -56,6 +56,10 @@ router.post("/register", (req, res) => {
     });
 });
 
+router.options("/login", (req, res) => {
+  res.sendStatus(200); 
+});
+
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
 

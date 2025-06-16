@@ -19,11 +19,9 @@ app.use(
   })
 );
 app.options("*", cors());
-
 app.use(express.json());
 
 app.use("/auth", authRoutes);
-
 app.use(verifyToken);
 app.use("/groups", groupRoutes);
 app.use("/expenses", expenseRoutes);
@@ -41,7 +39,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB error:", err));
 
-const port = process.env.PORT || 3000;
+const port = 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
