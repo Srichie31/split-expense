@@ -1,22 +1,19 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { User } = require("../models/schema"); // Import the User model from index.js
+const { User } = require("../models/schema");
 
 const router = express.Router();
 
-// Register endpoint
 router.post("/register", (req, res) => {
   const { name, email, password } = req.body;
 
-  // Check if the email already exists in the database
   User.findOne({ email: email })
     .then((existingUser) => {
       if (existingUser) {
         return res.status(400).json({ message: "EMAIL_EXISTS" });
       }
 
-      // Hash the password
       bcrypt.hash(password, 12, (err, hashedPassword) => {
         if (err) {
           return res
@@ -24,18 +21,15 @@ router.post("/register", (req, res) => {
             .json({ error: "Error during password hashing" });
         }
 
-        // Create a new user instance
         const newUser = new User({
           name,
           email,
           password: hashedPassword,
         });
 
-        // Save the user to the database
         newUser
           .save()
           .then((user) => {
-            // Create a JWT token
             const token = jwt.sign(
               { userId: user._id },
               process.env.JWT_SECRET_KEY,
@@ -44,7 +38,6 @@ router.post("/register", (req, res) => {
               }
             );
 
-            // Get the expiration time in seconds
             const expiresIn = jwt.decode(token).exp;
 
             return res
@@ -63,18 +56,15 @@ router.post("/register", (req, res) => {
     });
 });
 
-// Login endpoint
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  // Find the user by email
   User.findOne({ email: email })
     .then((user) => {
       if (!user) {
         return res.status(401).json({ message: "INVALID_CREDENTIALS" });
       }
 
-      // Compare password hash
       bcrypt.compare(password, user.password, (err, match) => {
         if (err) {
           return res
@@ -86,7 +76,6 @@ router.post("/login", (req, res) => {
           return res.status(401).json({ message: "INVALID_CREDENTIALS" });
         }
 
-        // Create a JWT token
         const token = jwt.sign(
           { userId: user._id },
           process.env.JWT_SECRET_KEY,
@@ -95,18 +84,15 @@ router.post("/login", (req, res) => {
           }
         );
 
-        // Get the expiration time in seconds
         const expiresIn = jwt.decode(token).exp;
 
-        return res
-          .status(200)
-          .json({
-            userId: user._id,
-            name: user.name,
-            email: user.email,
-            token,
-            expiresIn,
-          });
+        return res.status(200).json({
+          userId: user._id,
+          name: user.name,
+          email: user.email,
+          token,
+          expiresIn,
+        });
       });
     })
     .catch((error) => {

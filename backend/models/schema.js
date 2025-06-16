@@ -1,4 +1,3 @@
-// User Schema
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -9,7 +8,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
-// Group Schema
 const groupSchema = new mongoose.Schema({
   name: { type: String, required: true },
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
@@ -23,7 +21,6 @@ const groupSchema = new mongoose.Schema({
 });
 const Group = mongoose.model("Group", groupSchema);
 
-// Expense Schema
 const expenseSchema = new mongoose.Schema({
   description: { type: String, required: true },
   amount: { type: Number, required: true },
@@ -46,23 +43,22 @@ const expenseSchema = new mongoose.Schema({
       userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true
+        required: true,
       },
       username: {
         type: String,
         required: true,
-        min: 0
+        min: 0,
       },
       owed: {
         type: Number,
         required: true,
-        min: 0
-      }
-    }
-  ]
+        min: 0,
+      },
+    },
+  ],
 });
 
-// Export models
 const Expense = mongoose.model("Expense", expenseSchema);
 
 module.exports = { User, Group, Expense };

@@ -9,7 +9,7 @@ import { UserResponse } from "./user.service";
 export class GroupService implements OnDestroy{
   groups = new BehaviorSubject<Group[]>([]);
   groupsChanged = new Subject<void>();
-  private baseUrl: string = 'http://localhost:3000/groups'
+  private baseUrl: string = 'https://split-expense-by-srichie-backend.vercel.app/groups'
 
   constructor(private http: HttpClient) {
     this.fetchGroups();

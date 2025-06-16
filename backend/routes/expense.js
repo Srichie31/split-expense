@@ -37,7 +37,9 @@ router.post("/create", async (req, res) => {
 
     // Step 2: Fetch usernames for all userIds
     const users = await User.find({ _id: { $in: userIds } }).select("name");
-    const userMap = new Map(users.map(user => [user._id.toString(), user.name]));
+    const userMap = new Map(
+      users.map((user) => [user._id.toString(), user.name])
+    );
     const splits = splitBetween.map((userId) => ({
       userId,
       username: userMap.get(userId.toString()) || "Unknown",

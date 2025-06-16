@@ -48,13 +48,9 @@ router.get("/:groupId", async (req, res) => {
   }
 });
 
-//     res.status(500).json({ message: "Internal Server Error" });
-//   }
-// });
-
 router.get("/:group_id/summary", async (req, res) => {
   const groupId = req.params.group_id;
-  const group = await Group.findById(groupId)
+  const group = await Group.findById(groupId);
 
   try {
     const expenses = await Expense.find({ group_id: groupId });
@@ -62,7 +58,6 @@ router.get("/:group_id/summary", async (req, res) => {
     let totalExpenses = 0;
     let userBalances = {};
 
-    //
     expenses.forEach((expense) => {
       totalExpenses += expense.amount;
 
@@ -139,8 +134,8 @@ router.get("/:group_id/summary", async (req, res) => {
 
     res.status(200).json({
       groupId,
-      createdBy: userMap[group['createdBy']],
-      createdAt: group['createdAt'],
+      createdBy: userMap[group["createdBy"]],
+      createdAt: group["createdAt"],
       totalExpenses: totalExpenses.toFixed(2),
       groupSummary,
     });
