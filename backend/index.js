@@ -9,9 +9,13 @@ const groupRoutes = require("./routes/group");
 const expenseRoutes = require("./routes/expense");
 const userRoutes = require("./routes/user");
 const verifyToken = require("./middleware/verifyToken");
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:4200', 'https://split-expense-bz8143zch-srichie31s-projects.vercel.app'], 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 app.use(express.json());
-app.options("*", cors());
+
 
 app.use("/auth", authRoutes);
 app.use(verifyToken);
@@ -29,6 +33,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-app.listen(port, () => {
-  console.log(` Server is listening on port ${port}`);
-});
+module.exports = app;
+// app.listen(port, () => {
+//   console.log(` Server is listening on port ${port}`);
+// });
