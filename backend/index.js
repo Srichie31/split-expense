@@ -27,9 +27,7 @@ app.use("/groups", groupRoutes);
 app.use("/expenses", expenseRoutes);
 app.use("/users", userRoutes);
 
-app.use((req, res) => {
-  res.status(404).json({ error: "Route not found" });
-});
+console.log('hi')
 
 mongoose
   .connect(process.env.MONGO_URI, {
