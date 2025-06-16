@@ -9,11 +9,9 @@ const groupRoutes = require("./routes/group");
 const expenseRoutes = require("./routes/expense");
 const userRoutes = require("./routes/user");
 const verifyToken = require("./middleware/verifyToken");
-app.use(cors({
-  origin: 'http://localhost:4200',
-  credentials: true,
-}));
+app.use(cors());
 app.use(express.json());
+app.options("*", cors());
 
 app.use("/auth", authRoutes);
 app.use(verifyToken);
