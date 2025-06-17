@@ -12,21 +12,16 @@ const verifyToken = require("./middleware/verifyToken");
 const app = express();
 app.use(express.json());
 app.options("/", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://split-expense-by-srichie.vercel.app");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://split-expense-by-srichie.vercel.app"
+  );
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.sendStatus(204);
 });
 
-app.use(
-  cors({
-    origin: "https://split-expense-by-srichie.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
-  })
-);
-app.options("*", cors());
-
+app.use(cors());
 
 app.use("/auth", authRoutes);
 app.use(verifyToken);
@@ -34,7 +29,7 @@ app.use("/groups", groupRoutes);
 app.use("/expenses", expenseRoutes);
 app.use("/users", userRoutes);
 
-console.log('hi')
+console.log("hi");
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -48,5 +43,3 @@ const port = 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
-module.exports = app;
