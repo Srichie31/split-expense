@@ -6,7 +6,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 
 @Injectable({providedIn: 'root'})
 export class ExpenseService{
-    private baseUrl = "https://split-expense-by-srichie-backend.vercel.app/expenses";
+    private baseUrl = "http://localhost:3000/expenses";
 
     expenses = new BehaviorSubject<Expense[]>([]);
     expensesChanged = new Subject<void>();
