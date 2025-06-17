@@ -10,6 +10,13 @@ const userRoutes = require("./routes/user");
 const verifyToken = require("./middleware/verifyToken");
 
 const app = express();
+app.use(express.json());
+app.options("/", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://split-expense-by-srichie.vercel.app");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.sendStatus(204);
+});
 
 app.use(
   cors({
@@ -19,7 +26,7 @@ app.use(
   })
 );
 app.options("*", cors());
-app.use(express.json());
+
 
 app.use("/auth", authRoutes);
 app.use(verifyToken);
