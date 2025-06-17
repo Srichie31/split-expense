@@ -3,11 +3,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-const authRoutes = require("../routes/auth");
-const groupRoutes = require("../routes/group");
-const expenseRoutes = require("../routes/expense");
-const userRoutes = require("../routes/user");
-const verifyToken = require("../middleware/verifyToken");
+const authRoutes = require("./routes/auth");
+const groupRoutes = require("./routes/group");
+const expenseRoutes = require("./routes/expense");
+const userRoutes = require("./routes/user");
+const verifyToken = require("./middleware/verifyToken");
 
 mongoose
   .connect(process.env.MONGO_URI, {
