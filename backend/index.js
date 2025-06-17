@@ -10,14 +10,7 @@ const userRoutes = require("./routes/user");
 const verifyToken = require("./middleware/verifyToken");
 
 const app = express();
-
-app.use(
-  cors({
-    origin: "https://split-expense-by-srichie.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
-  })
-);
+app.use(cors());
 app.options("*", cors());
 app.use(express.json());
 
@@ -27,7 +20,7 @@ app.use("/groups", groupRoutes);
 app.use("/expenses", expenseRoutes);
 app.use("/users", userRoutes);
 
-console.log('hi')
+console.log("hi");
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -42,4 +35,4 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-module.exports = app;
+// module.exports = app;

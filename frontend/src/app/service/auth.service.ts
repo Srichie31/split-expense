@@ -15,7 +15,7 @@ export interface AuthResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   user = new BehaviorSubject<User>(null);
-  private authUrl = 'http://localhost:3000/auth';
+  private authUrl = 'https://split-expense-by-srichie-backend.vercel.app/auth';
   private logOutTimer: any;
 
   constructor(private http: HttpClient,

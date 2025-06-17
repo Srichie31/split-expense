@@ -10,7 +10,7 @@ export interface UserResponse {
 
 @Injectable()
 export class UserService {
-  private baseUrl = 'http://localhost:3000/users';
+  private baseUrl = 'https://split-expense-by-srichie-backend.vercel.app/users';
 
   public user = new BehaviorSubject<UserResponse>(null);
 
