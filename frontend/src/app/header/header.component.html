@@ -32,12 +32,17 @@
             >Groups</a
           >
         </li>
+        <li class="nav-item" *ngIf="isAuthenticated" >
+          <a class="nav-link text-danger" (click)="onLogout()"
+            >Log out</a
+          >
+        </li>
       </ul>
 
       <!-- Right Nav -->
-      <ul class="navbar-nav ms-auto align-items-center gap-3">
+      <ul class="navbar-nav d-none d-md-flex ms-auto align-items-center gap-3 " >
         <!-- Add Expense -->
-        <li *ngIf="isAuthenticated">
+        <li *ngIf="isAuthenticated" class="d-none d-md-block">
           <button
             class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1"
             (click)="onAddExpense()"
@@ -47,7 +52,7 @@
         </li>
 
         <!-- Notification -->
-        <li *ngIf="isAuthenticated">
+        <li *ngIf="isAuthenticated" >
           <button
             class="btn btn-light position-relative p-0 border-0"
             style="height: 32px; width: 32px; border-radius: 50%"
